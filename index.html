@@ -48,12 +48,12 @@ a{color:var(--ac)}
 /* 單機版：資料存在這支手機／這台電腦的瀏覽器裡（localStorage），不需要伺服器 */
 (function(){
   var KEY="lunch-data-v1",subs=[];
-  var SEED={"shops": {"s-chengdaqi": {"menu": [{"name": "招牌烤肉飯", "price": 110}, {"name": "烤排骨飯", "price": 120}, {"name": "烤五花肉飯", "price": 120}, {"name": "酥炸排骨飯", "price": 120}, {"name": "烤雞腿飯", "price": 125}, {"name": "烤雞排飯", "price": 120}, {"name": "烤雞柳飯", "price": 115}, {"name": "酥炸雞腿飯", "price": 120}, {"name": "酥炸雞排飯", "price": 120}, {"name": "酥炸雞柳飯", "price": 115}, {"name": "椒麻雞腿飯", "price": 125}, {"name": "烤鯖魚飯", "price": 120}, {"name": "菜飯（無主菜）", "price": 90}, {"name": "雙主餐｜加量烤肉飯", "price": 150}, {"name": "雙主餐｜炸雞腿 × 烤肉飯", "price": 160}, {"name": "雙主餐｜炸雞柳 × 烤肉飯", "price": 155}, {"name": "雙主餐｜炸雞排 × 烤肉飯", "price": 160}, {"name": "雙主餐｜炸排骨 × 烤肉飯", "price": 160}, {"name": "雙主餐｜烤雞柳 × 烤肉飯", "price": 155}, {"name": "雙主餐｜烤雞排 × 烤肉飯", "price": 160}, {"name": "雙主餐｜烤鯖魚 × 烤肉飯", "price": 160}, {"name": "雙主餐｜烤五花 × 烤肉飯", "price": 160}, {"name": "雙主餐｜烤排骨 × 烤肉飯", "price": 160}, {"name": "雙主餐｜烤雞腿 × 烤肉飯", "price": 165}, {"name": "雙主餐｜椒麻雞腿 × 烤肉飯", "price": 165}], "mobile": "", "name": "成大器烤肉飯 四維店", "note": "雙主餐價格依菜單照片；單主菜價格取自網路，請團主確認", "phone": "03-5210108"}, "s-dahk": {"menu": [{"name": "瘦肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "生滾牛肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "廣東海鮮粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "吻魚粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "皮蛋瘦肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "羊肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "瘦肉烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "牛肉烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "海鮮烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "魷魚烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "羊肉烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "鍋燒瘦肉意麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "鍋燒豬肝意麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "鍋燒牛肉意麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "鍋燒海鮮意麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "鍋燒魷魚意麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "鍋燒貢丸意麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "鍋燒羊肉意麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "瘦肉油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "牛肉油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "海鮮油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "魷魚油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "羊肉油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "瘦肉冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "牛肉冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "海鮮冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "魷魚冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "羊肉冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "白粥", "opts": [{"name": "加大", "price": 15}], "price": 30}, {"name": "貢丸湯", "price": 45}, {"name": "蛋花湯", "price": 45}, {"name": "陽春粥（麵）", "opts": [{"name": "加大", "price": 15}], "price": 55}, {"name": "炒麵", "price": 80}, {"name": "炒麵（特大）", "price": 100}, {"name": "蛤仔湯", "price": 80}, {"name": "豬肝湯", "price": 80}, {"name": "牛肉湯", "price": 80}, {"name": "海鮮湯", "price": 80}, {"name": "羊肉湯", "price": 80}, {"name": "油條", "price": 10}, {"name": "雞蛋", "price": 10}, {"name": "皮蛋", "price": 15}], "mobile": "0936463288", "name": "大香港廣東粥", "note": "粥・麵類一律 $100", "phone": "03-5399081"}, "s-jinmen": {"menu": [{"name": "照燒排骨飯", "price": 100}, {"name": "香酥排骨飯", "price": 100}, {"name": "滷排骨飯", "price": 100}, {"name": "糖醋排骨飯", "price": 100}, {"name": "黑椒豬排飯", "price": 100}, {"name": "咖哩豬排飯", "price": 100}, {"name": "橙汁排骨飯", "price": 100}, {"name": "蝦排飯", "price": 100}, {"name": "咖哩雞排飯", "price": 100}, {"name": "芥末雞排飯", "price": 100}, {"name": "照燒雞排飯", "price": 100}, {"name": "糖醋雞排飯", "price": 100}, {"name": "黑椒雞排飯", "price": 100}, {"name": "滷雞腿飯", "price": 130}, {"name": "炸雞腿飯", "price": 130}, {"name": "炸雞排飯", "price": 130}, {"name": "泰式椒麻雞飯", "price": 130}], "mobile": "", "name": "金門排骨專賣店", "note": "中餐外送請 11:00 前來電・價格依 113 年 8 月菜單，請團主確認", "phone": "03-5402899"}, "s-taiji": {"menu": [{"name": "打拋豬肉飯", "price": 110}, {"name": "打拋雞肉飯", "price": 110}, {"name": "打拋牛肉飯", "price": 120}, {"name": "打拋脆皮豬肉飯", "price": 120}, {"name": "打拋花枝飯", "price": 120}, {"name": "打拋海鮮飯", "price": 120}, {"name": "豬肉炒飯", "price": 110}, {"name": "雞肉炒飯", "price": 110}, {"name": "牛肉炒飯", "price": 120}, {"name": "蝦仁炒飯", "price": 120}, {"name": "紅咖哩豬肉飯", "price": 110}, {"name": "豬肉餡烘蛋飯", "price": 110}, {"name": "牛肉芥蘭飯", "price": 120}, {"name": "炸豬肉飯", "price": 130}, {"name": "脆皮豬肉芥蘭飯", "price": 120}, {"name": "豬肉芥蘭飯", "price": 110}, {"name": "紅咖哩雞肉飯", "price": 110}, {"name": "紅咖哩牛肉飯", "price": 110}, {"name": "紅咖哩蝦仁飯", "price": 120}, {"name": "泰式蝦仁炒河粉", "price": 120}, {"name": "泰式豬肉炒河粉", "price": 110}, {"name": "泰式雞肉炒河粉", "price": 110}, {"name": "泰式牛肉炒河粉", "price": 120}, {"name": "泰式炒板條（蝦仁）", "price": 120}, {"name": "泰式炒板條（豬）", "price": 110}, {"name": "泰式炒板條（雞）", "price": 110}, {"name": "泰式炒板條（牛）", "price": 120}, {"name": "泰式海鮮湯板條", "price": 120}, {"name": "泰式豬肉湯板條", "price": 110}, {"name": "泰式雞肉湯板條", "price": 110}, {"name": "泰式牛肉湯麵", "price": 120}, {"name": "泰式豬肉湯麵", "price": 110}, {"name": "泰式奶茶（小）", "price": 40}, {"name": "泰式奶茶（大）", "price": 60}, {"name": "泰式奶茶（一壺）", "price": 100}, {"name": "泰式奶茶（特大壺）", "price": 150}], "mobile": "0928915301", "name": "泰極小館", "note": "週一公休", "phone": "03-5396529"}, "s-wangjia": {"menu": [{"name": "湯麵", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "乾麵", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "炊粉", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "粄條", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "綜合麵（乾）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合麵（湯）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合粄條（乾）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合粄條（湯）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合米粉（乾）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合米粉（湯）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "魚丸湯", "price": 45}, {"name": "餛飩湯", "price": 45}, {"name": "骨仔肉湯", "price": 55}, {"name": "綜合湯", "price": 55}], "mobile": "", "name": "汪家魚丸湯", "note": "營業至 13:30（網路資料）・價格依菜單照片", "phone": "03-5266797"}, "s-tuoben": {"name": "侘本食堂", "phone": "", "mobile": "0979-291-281", "note": "預訂專線為手機・價格依菜單照片", "menu": [{"name": "火山魚卵炒飯", "price": 160}, {"name": "烏魚子炒飯", "price": 140}, {"name": "鮭魚炒飯", "price": 130}, {"name": "手剝鮮蝦炒飯", "price": 120}, {"name": "XO醬海鮮炒飯", "price": 120}, {"name": "客家鹹豬肉炒飯", "price": 110}, {"name": "高粱香腸炒飯", "price": 110}, {"name": "韓式泡菜牛炒飯", "price": 110}, {"name": "紹興酒香豬炒飯", "price": 100}, {"name": "馬祖酒糟豬炒飯", "price": 100}, {"name": "蒜味櫻花蝦炒飯", "price": 100}, {"name": "港式臘腸炒飯", "price": 100}, {"name": "吻仔魚炒飯", "price": 100}, {"name": "牛肉炒飯（原味）", "price": 100}, {"name": "牛肉炒飯（沙茶）", "price": 100}, {"name": "牛肉炒飯（椒麻）", "price": 100}, {"name": "豬肉炒飯（原味）", "price": 90}, {"name": "豬肉炒飯（沙茶）", "price": 90}, {"name": "豬肉炒飯（椒麻）", "price": 90}, {"name": "蛋炒飯", "price": 80}, {"name": "日式味噌湯", "price": 30}]}}, "staff": {"roster": {"depts": [{"members": ["阿寬", "貢丸", "志哲", "子平", "小賴", "陳虹", "杰哥", "翔瑋", "小胖", "勳哥", "寶姊", "香姊", "副理", "經理", "亦瑄"], "name": "工程部"}, {"members": ["慈慈", "環姊", "佩玲", "瑞儀", "琇雯", "大姊"], "name": "會計部"}]}}};
+  var SEED={"shops": {"s-chengdaqi": {"menu": [{"name": "招牌烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 110}, {"name": "烤排骨飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 120}, {"name": "烤五花肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 120}, {"name": "酥炸排骨飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 120}, {"name": "烤雞腿飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 125}, {"name": "烤雞排飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 120}, {"name": "烤雞柳飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 115}, {"name": "酥炸雞腿飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 120}, {"name": "酥炸雞排飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 120}, {"name": "酥炸雞柳飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 115}, {"name": "椒麻雞腿飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 125}, {"name": "烤鯖魚飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 120}, {"name": "菜飯（無主菜）", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 90}, {"name": "雙主餐｜加量烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 150}, {"name": "雙主餐｜炸雞腿 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 160}, {"name": "雙主餐｜炸雞柳 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 155}, {"name": "雙主餐｜炸雞排 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 160}, {"name": "雙主餐｜炸排骨 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 160}, {"name": "雙主餐｜烤雞柳 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 155}, {"name": "雙主餐｜烤雞排 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 160}, {"name": "雙主餐｜烤鯖魚 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 160}, {"name": "雙主餐｜烤五花 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 160}, {"name": "雙主餐｜烤排骨 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 160}, {"name": "雙主餐｜烤雞腿 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 165}, {"name": "雙主餐｜椒麻雞腿 × 烤肉飯", "opts": [{"name": "半飯", "price": 0, "ex": "rice"}, {"name": "加飯", "price": 0, "ex": "rice"}], "price": 165}], "mobile": "", "name": "成大器烤肉飯 四維店", "note": "雙主餐價格依菜單照片；單主菜價格取自網路，請團主確認", "phone": "03-5210108", "rev": 3}, "s-dahk": {"menu": [{"name": "瘦肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "生滾牛肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "廣東海鮮粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "吻魚瘦肉粥", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "皮蛋瘦肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸瘦肉粥", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "羊肉粥", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "瘦肉烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "牛肉烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "海鮮烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "魷魚烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "羊肉烏龍麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "瘦肉意麵", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "豬肝意麵", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "牛肉意麵", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "海鮮意麵", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "魷魚意麵", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "貢丸意麵", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "羊肉意麵", "price": 100, "opts": [{"name": "加大", "price": 15}]}, {"name": "瘦肉油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "牛肉油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "海鮮油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "魷魚油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "羊肉油麵", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "瘦肉冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "豬肝冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "牛肉冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "海鮮冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "魷魚冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "貢丸冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "羊肉冬粉", "opts": [{"name": "加大", "price": 15}], "price": 100}, {"name": "白粥", "opts": [{"name": "加大", "price": 15}], "price": 30}, {"name": "貢丸湯", "price": 45}, {"name": "蛋花湯", "price": 45}, {"name": "陽春粥（麵）", "opts": [{"name": "加大", "price": 15}], "price": 55}, {"name": "炒麵", "price": 80}, {"name": "炒麵（特大）", "price": 100}, {"name": "蛤仔湯", "price": 80}, {"name": "豬肝湯", "price": 80}, {"name": "牛肉湯", "price": 80}, {"name": "海鮮湯", "price": 80}, {"name": "羊肉湯", "price": 80}, {"name": "油條", "price": 10}, {"name": "雞蛋", "price": 10}, {"name": "皮蛋", "price": 15}], "mobile": "0936463288", "name": "大香港廣東粥", "note": "粥・麵類一律 $100", "phone": "03-5399081", "rev": 3}, "s-jinmen": {"menu": [{"name": "照燒排骨飯", "price": 100}, {"name": "香酥排骨飯", "price": 100}, {"name": "滷排骨飯", "price": 100}, {"name": "糖醋排骨飯", "price": 100}, {"name": "黑椒豬排飯", "price": 100}, {"name": "咖哩豬排飯", "price": 100}, {"name": "橙汁排骨飯", "price": 100}, {"name": "蝦排飯", "price": 100}, {"name": "咖哩雞排飯", "price": 100}, {"name": "芥末雞排飯", "price": 100}, {"name": "照燒雞排飯", "price": 100}, {"name": "糖醋雞排飯", "price": 100}, {"name": "黑椒雞排飯", "price": 100}, {"name": "滷雞腿飯", "price": 130}, {"name": "炸雞腿飯", "price": 130}, {"name": "炸雞排飯", "price": 130}, {"name": "泰式椒麻雞飯", "price": 130}], "mobile": "", "name": "金門排骨專賣店", "note": "中餐外送請 11:00 前來電・價格依 113 年 8 月菜單，請團主確認", "phone": "03-5402899"}, "s-taiji": {"menu": [{"name": "打拋豬肉飯", "price": 110}, {"name": "打拋雞肉飯", "price": 110}, {"name": "打拋牛肉飯", "price": 120}, {"name": "打拋脆皮豬肉飯", "price": 120}, {"name": "打拋花枝飯", "price": 120}, {"name": "打拋海鮮飯", "price": 120}, {"name": "豬肉炒飯", "price": 110}, {"name": "雞肉炒飯", "price": 110}, {"name": "牛肉炒飯", "price": 120}, {"name": "蝦仁炒飯", "price": 120}, {"name": "紅咖哩豬肉飯", "price": 110}, {"name": "豬肉餡烘蛋飯", "price": 110}, {"name": "牛肉芥蘭飯", "price": 120}, {"name": "炸豬肉飯", "price": 130}, {"name": "脆皮豬肉芥蘭飯", "price": 120}, {"name": "豬肉芥蘭飯", "price": 110}, {"name": "紅咖哩雞肉飯", "price": 110}, {"name": "紅咖哩牛肉飯", "price": 110}, {"name": "紅咖哩蝦仁飯", "price": 120}, {"name": "泰式蝦仁炒河粉", "price": 120}, {"name": "泰式豬肉炒河粉", "price": 110}, {"name": "泰式雞肉炒河粉", "price": 110}, {"name": "泰式牛肉炒河粉", "price": 120}, {"name": "泰式炒板條（蝦仁）", "price": 120}, {"name": "泰式炒板條（豬）", "price": 110}, {"name": "泰式炒板條（雞）", "price": 110}, {"name": "泰式炒板條（牛）", "price": 120}, {"name": "泰式海鮮湯板條", "price": 120}, {"name": "泰式豬肉湯板條", "price": 110}, {"name": "泰式雞肉湯板條", "price": 110}, {"name": "泰式牛肉湯麵", "price": 120}, {"name": "泰式豬肉湯麵", "price": 110}, {"name": "泰式奶茶（小）", "price": 40}, {"name": "泰式奶茶（大）", "price": 60}, {"name": "泰式奶茶（一壺）", "price": 100}, {"name": "泰式奶茶（特大壺）", "price": 150}], "mobile": "0928915301", "name": "泰極小館", "note": "週一公休", "phone": "03-5396529"}, "s-wangjia": {"menu": [{"name": "湯麵", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "乾麵", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "炊粉", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "粄條", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 45}, {"name": "綜合麵（乾）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合麵（湯）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合粄條（乾）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合粄條（湯）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合米粉（乾）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "綜合米粉（湯）", "opts": [{"name": "加肉", "price": 30}, {"name": "加餛飩", "price": 20}, {"name": "加魚丸", "price": 30}, {"name": "加魯蛋", "price": 10}, {"name": "加大", "price": 10}], "price": 100}, {"name": "魚丸湯", "price": 45}, {"name": "餛飩湯", "price": 45}, {"name": "骨仔肉湯", "price": 55}, {"name": "綜合湯", "price": 55}], "mobile": "", "name": "汪家魚丸湯", "note": "營業至 13:30（網路資料）・價格依菜單照片", "phone": "03-5266797"}, "s-tuoben": {"name": "侘本食堂", "phone": "", "mobile": "0979-291-281", "note": "預訂專線為手機・價格依菜單照片", "menu": [{"name": "火山魚卵炒飯", "price": 160}, {"name": "烏魚子炒飯", "price": 140}, {"name": "鮭魚炒飯", "price": 130}, {"name": "手剝鮮蝦炒飯", "price": 120}, {"name": "XO醬海鮮炒飯", "price": 120}, {"name": "客家鹹豬肉炒飯", "price": 110}, {"name": "高粱香腸炒飯", "price": 110}, {"name": "韓式泡菜牛炒飯", "price": 110}, {"name": "紹興酒香豬炒飯", "price": 100}, {"name": "馬祖酒糟豬炒飯", "price": 100}, {"name": "蒜味櫻花蝦炒飯", "price": 100}, {"name": "港式臘腸炒飯", "price": 100}, {"name": "吻仔魚炒飯", "price": 100}, {"name": "牛肉炒飯（原味）", "price": 100}, {"name": "牛肉炒飯（沙茶）", "price": 100}, {"name": "牛肉炒飯（椒麻）", "price": 100}, {"name": "豬肉炒飯（原味）", "price": 90}, {"name": "豬肉炒飯（沙茶）", "price": 90}, {"name": "豬肉炒飯（椒麻）", "price": 90}, {"name": "蛋炒飯", "price": 80}, {"name": "日式味噌湯", "price": 30}]}}, "staff": {"roster": {"depts": [{"members": ["阿寬", "貢丸", "志哲", "子平", "小賴", "陳虹", "杰哥", "翔瑋", "小胖", "勳哥", "寶姊", "香姊", "副理", "經理", "亦瑄"], "name": "工程部"}, {"members": ["慈慈", "環姊", "佩玲", "瑞儀", "琇雯", "大姊"], "name": "會計部"}]}}};
   function load(){try{var j=JSON.parse(localStorage.getItem(KEY)||"null");if(j)return j}catch(e){}return JSON.parse(JSON.stringify(SEED))}
   var cache=load();
   /* 把「從沒匯入過」的新店家補進舊資料（你刪掉的店不會再回來） */
   (function(){var seen=cache.__seeded||Object.keys(cache.shops||{});cache.shops=cache.shops||{};
-    Object.keys(SEED.shops||{}).forEach(function(id){if(seen.indexOf(id)<0){cache.shops[id]=SEED.shops[id];seen.push(id)}});
+    Object.keys(SEED.shops||{}).forEach(function(id){if(seen.indexOf(id)<0){cache.shops[id]=SEED.shops[id];seen.push(id)}else if(cache.shops[id]&&(SEED.shops[id].rev||0)>(cache.shops[id].rev||0)){cache.shops[id]=SEED.shops[id]}});
     cache.__seeded=seen;try{localStorage.setItem(KEY,JSON.stringify(cache))}catch(e){}})();
   function save(){try{localStorage.setItem(KEY,JSON.stringify(cache))}catch(e){alert("儲存失敗，瀏覽器可能是無痕模式")}}
   function clone(o){return o===undefined?undefined:Object.freeze(JSON.parse(JSON.stringify(o)))}
@@ -127,7 +127,7 @@ function render(){
   (state.menu||[]).forEach(function(m){
     var q=cartQty(m.no);
     h+='<div class="item'+(q?' on':'')+'"><span>'+m.no+'. '+esc(m.name)+' <span class="price">$'+m.price+'</span></span>'+(closed?(q?'<b>x'+q+'</b>':''):'<span class="qty"><button class="g" data-dec="'+m.no+'">−</button><b>'+q+'</b><button data-inc="'+m.no+'">+</button></span>')+'</div>';
-    if(m.opts&&q>0)m.opts.forEach(function(op,oi){var key=m.no+":"+oi,oq=cartQty(key);h+='<div class="item" style="margin-left:18px;border-style:dashed"><span>↳ '+esc(op.name)+' <span class="price">+$'+op.price+'</span></span>'+(closed?(oq?'<b>x'+oq+'</b>':''):'<span class="qty"><button class="g" data-odec="'+key+'">−</button><b>'+oq+'</b><button data-oinc="'+key+'">+</button></span>')+'</div>'});
+    if(m.opts&&q>0&&!closed){bowlsOf(m.no,curCart()).forEach(function(v,bi){var sel=v===""?[]:v.split(",").map(Number);h+='<div class="item" style="margin-left:18px;border-style:dashed;cursor:default;flex-wrap:wrap;gap:6px"><span>第 '+(bi+1)+' 碗</span><span style="display:flex;flex-wrap:wrap;gap:6px">'+m.opts.map(function(op,oi){return '<button'+(sel.indexOf(oi)>=0?'':' class="g"')+' data-tog="'+m.no+'|'+bi+'|'+oi+'" style="padding:4px 10px;font-size:14px">'+esc(op.name)+' +$'+op.price+'</button>'}).join('')+'</span></div>'})}
   });
   if(!closed){
     h+='<input id="note" placeholder="備註（例如：少飯、不要香菜）" value="'+esc(draftOrderNote!==null?draftOrderNote:(mine?mine.note||"":""))+'">';
@@ -161,17 +161,64 @@ function curCart(){
   var m=who?orders.find(function(o){return o.id===idFor(who)}):null;
   return m?JSON.parse(JSON.stringify(itemsOf(m))):{};
 }
-function cartQty(no){return curCart()[no]||0}
 function lineOf(k){
-  var p=String(k).split(":"),it=itemOf(Number(p[0]));if(!it)return null;
-  if(p.length<2)return {it:it,base:true,name:it.name,price:it.price};
+  var s=String(k),i=s.indexOf("~"),it;
+  if(i>=0){
+    it=itemOf(Number(s.slice(0,i)));if(!it)return null;
+    var ops=s.slice(i+1).split(",").map(function(x){return (it.opts||[])[Number(x)]}).filter(Boolean);
+    var lab=ops.map(function(o){return o.name}).join("＋");
+    return {it:it,base:true,v:1,name:it.name+(lab?"（"+lab+"）":""),bname:it.name,oname:lab,price:it.price+ops.reduce(function(a,o){return a+o.price},0)};
+  }
+  var p=s.split(":");it=itemOf(Number(p[0]));if(!it)return null;
+  if(p.length<2)return {it:it,base:true,v:1,name:it.name,bname:it.name,oname:"",price:it.price};
   var op=(it.opts||[])[Number(p[1])];if(!op)return null;
-  return {it:it,base:false,name:it.name+"（"+op.name+"）",price:op.price};
+  return {it:it,base:false,name:it.name+"（"+op.name+"）",bname:it.name,oname:op.name,price:op.price};
 }
-function skey(k){var p=String(k).split(":");return Number(p[0])*100+(p.length>1?Number(p[1])+1:0)}
+function skey(k){var s=String(k),p=s.split(/[:~]/),b=Number(p[0])*1000;if(s.indexOf("~")>=0)return b+1+Number(p[1].split(",")[0])*10+p[1].split(",").length;if(p.length>1)return b+500+Number(p[1]);return b}
+function inNo(k,no){var s=String(k);return s===String(no)||s.indexOf(no+"~")===0}
+var cbo={};
+function bowlsOf(no,c){
+  var out=[];Object.keys(c).filter(function(k){return inNo(k,no)}).sort(function(a,b){return skey(a)-skey(b)}).forEach(function(k){var s=String(k),v=s.indexOf("~")>=0?s.slice(s.indexOf("~")+1):"";for(var i=0;i<c[k];i++)out.push(v)});
+  var keep=cbo[no];
+  if(keep&&keep.slice().sort().join("|")===out.slice().sort().join("|"))return keep.slice();
+  cbo[no]=out.slice();return out;
+}
+function setBowls(no,bowls,c){cbo[no]=bowls.slice();Object.keys(c).forEach(function(k){if(inNo(k,no)||String(k).indexOf(no+":")===0)delete c[k]});bowls.forEach(function(v){var key=v?no+"~"+v:String(no);c[key]=(c[key]||0)+1});return c}
+function cartQty(no){var c=curCart(),n=0;Object.keys(c).forEach(function(k){if(inNo(k,no))n+=c[k]});return n}
 function cartTotal(){var c=curCart(),t=0;Object.keys(c).forEach(function(k){var L=lineOf(k);if(L)t+=L.price*c[k]});return t}
+function fmtG(name,q,opts){
+  if(!opts.length)return name+(q>1?" x"+q:"");
+  if(q<=1)return name+"（"+opts.map(function(o){return o.n+(o.c>1?" x"+o.c:"")}).join("、")+"）";
+  return name+" x"+q+"（"+opts.map(function(o){return o.n+" x"+o.c}).join("、")+"）";
+}
+function groupHist(lines){
+  var g=[],idx={};
+  lines.forEach(function(l){
+    var b=l.base!==undefined?l.base:l.name,o=l.base!==undefined?l.opt:"";
+    if(!(b in idx)){idx[b]=g.length;g.push({name:b,q:0,opts:[]})}
+    var G=g[idx[b]];
+    if(!o||l.v)G.q+=l.qty;if(o){var f=G.opts.find(function(p){return p.n===o});if(f)f.c+=l.qty;else G.opts.push({n:o,c:l.qty})}
+  });
+  return g;
+}
+function groupHtml(g){
+  var h="";
+  g.forEach(function(G){
+    h+='<div class="line"><span>'+esc(G.name)+'</span><span>x'+G.q+'</span></div>';
+    G.opts.forEach(function(o){h+='<div style="padding:3px 0 3px 16px;color:var(--mu);font-size:14px;display:flex;justify-content:space-between"><span>↳ 其中 '+o.c+' 碗'+esc(o.n)+'</span><span></span></div>'});
+  });
+  return h;
+}
+function groupText(g){
+  var t=[];
+  g.forEach(function(G){t.push(G.name+" x"+G.q);G.opts.forEach(function(o){t.push("　↳ 其中 "+o.c+" 碗"+o.n)})});
+  return t.join("\n");
+}
+function keysToLines(items){
+  return Object.keys(items).sort(function(a,b){return skey(a)-skey(b)}).map(function(k){var L=lineOf(k);return L?{base:L.bname,opt:L.oname,v:L.v,qty:items[k]}:null}).filter(Boolean);
+}
 function describe(items){
-  return Object.keys(items).sort(function(a,b){return skey(a)-skey(b)}).map(function(k){var L=lineOf(k);return L?L.name+(items[k]>1?' x'+items[k]:''):null}).filter(Boolean).join('、');
+  return groupHist(keysToLines(items)).map(function(G){return fmtG(G.name,G.q,G.opts)}).join("、");
 }
 function idCard(){
   if(!roster.length||!me)return '';
@@ -201,7 +248,7 @@ function whoSelect(){
   return h+'</select>';
 }
 function nameOf(uid,label){return label||smap[uid]||names[uid]||"某人"}
-function histDesc(lines){return lines.map(function(l){return l.name+(l.qty>1?' x'+l.qty:'')}).join('、')}
+function histDesc(lines){return groupHist(lines).map(function(G){return fmtG(G.name,G.q,G.opts)}).join('、')}
 function histView(){
   if(!hist.length)return '<div class="empty">還沒有紀錄。團主按「結單」後會自動存檔。</div>';
   var d=new Date(),ym=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"),mt=0,mc=0;
@@ -212,6 +259,8 @@ function histView(){
     h+='<div class="card"><div class="hd" data-hday="'+esc(x.id)+'"><span><b>'+esc(x.date)+'（'+wd+'）</b> '+esc(x.shop)+'</span><span><small>'+x.count+' 份・</small><b>$'+x.total+'</b></span></div>';
     if(on){
       h+='<div style="margin-top:10px">';
+      var G=groupHist([].concat.apply([],(x.orders||[]).map(function(o){return o.lines||[]})));
+      h+='<h2>品項統計（'+x.count+' 份・$'+x.total+'）</h2>'+groupHtml(G)+'<h2 style="margin-top:14px">每人明細</h2>';
       (x.orders||[]).forEach(function(o){h+='<div class="line"><span>'+esc(nameOf(o.uid,o.label))+(o.uid===me?'（我）':'')+'：'+esc(histDesc(o.lines))+(o.note?'（'+esc(o.note)+'）':'')+'</span><span>$'+o.total+'</span></div>'});
       if(isOrg)h+='<div style="margin-top:10px"><button class="g" data-hdel="'+esc(x.id)+'">刪除這筆紀錄</button></div>';
       h+='</div>';
@@ -237,7 +286,7 @@ function stats(){
   var S=summary();
   if(!S.r.length)return '<div class="card"><h2>目前訂單</h2><div class="empty">還沒有人點餐</div></div>';
   var h='<div class="card"><h2>給店家（共 '+S.n+' 份）</h2>';
-  S.keys.forEach(function(k){h+='<div class="line"><span>'+esc(lineOf(k).name)+'</span><span>x'+S.cnt[k]+'</span></div>'});
+  h+=groupHtml(groupHist(S.keys.map(function(k){var L=lineOf(k);return {base:L.bname,opt:L.oname,v:L.v,qty:S.cnt[k]}})));
   var notes=S.r.filter(function(x){return x.note});
   if(notes.length){h+='<h2 style="margin-top:12px">備註</h2>';notes.forEach(function(x){h+='<div class="line"><span>'+esc(x.who)+'</span><span>'+esc(x.note)+'</span></div>'})}
   h+='</div><div class="card"><h2>每人明細</h2>';
@@ -247,7 +296,7 @@ function stats(){
 function statsText(){
   var S=summary();
   var t="🍱 "+state.shop+"（共 "+S.n+" 份）\n"+((state.phone||state.mobile)?"📞 "+[state.phone,state.mobile].filter(Boolean).join(" / ")+"\n":"");
-  t+=S.keys.map(function(k){return lineOf(k).name+" x"+S.cnt[k]}).join("\n");
+  t+=groupText(groupHist(S.keys.map(function(k){var L=lineOf(k);return {base:L.bname,opt:L.oname,v:L.v,qty:S.cnt[k]}})));
   var notes=S.r.filter(function(x){return x.note});
   if(notes.length)t+="\n——備註——\n"+notes.map(function(x){return x.who+"："+x.note}).join("\n");
   t+="\n——明細——\n"+S.r.map(function(x){return x.who+"："+describe(x.items)+" $"+x.total}).join("\n")+"\n合計 $"+S.tot;
@@ -267,17 +316,19 @@ document.addEventListener("click",async function(e){
     if(t.dataset.view){view=t.dataset.view;render();return}
     if(t.dataset.hday){openDay=openDay===t.dataset.hday?null:t.dataset.hday;render();return}
     if(t.dataset.hdel){if(askTwice("確定刪除這筆紀錄？",t.dataset.hdel)){await db.collection("history").doc(t.dataset.hdel).delete()}return}
-    if((t.dataset.oinc||t.dataset.odec)&&!pastDeadline()){
+    if((t.dataset.inc||t.dataset.dec||t.dataset.tog)&&!pastDeadline()){
       if(!who){toast("請先在上方選擇你的名字");return}
-      var key=t.dataset.oinc||t.dataset.odec,c2=curCart(),base=Number(key.split(":")[0]),oq=Math.max(0,Math.min(c2[base]||0,(c2[key]||0)+(t.dataset.oinc?1:-1)));
-      if(oq)c2[key]=oq;else delete c2[key];
-      if(proxyMode)pcart=c2;else cart=c2;render();return;
-    }
-    if((t.dataset.inc||t.dataset.dec)&&!pastDeadline()){
-      if(!who){toast("請先在上方選擇你的名字");return}
-      var no=Number(t.dataset.inc||t.dataset.dec),c=curCart(),q=Math.max(0,Math.min(20,(c[no]||0)+(t.dataset.inc?1:-1)));
-      if(q)c[no]=q;else delete c[no];
-      Object.keys(c).forEach(function(k){if(k.indexOf(no+":")===0&&c[k]>q){if(q)c[k]=q;else delete c[k]}});
+      var c=curCart(),no,bowls;
+      if(t.dataset.tog){
+        var tp=t.dataset.tog.split("|");no=Number(tp[0]);bowls=bowlsOf(no,c);
+        var bi=Number(tp[1]),oi=Number(tp[2]),st=bowls[bi]===""?[]:bowls[bi].split(",").map(Number),at=st.indexOf(oi);
+        if(at>=0)st.splice(at,1);else{st.push(oi);var ex=((itemOf(no).opts||[])[oi]||{}).ex;if(ex)st=st.filter(function(x){return x===oi||(((itemOf(no).opts||[])[x]||{}).ex!==ex)})}
+        st.sort(function(a,b){return a-b});bowls[bi]=st.join(",");
+      }else{
+        no=Number(t.dataset.inc||t.dataset.dec);bowls=bowlsOf(no,c);
+        if(t.dataset.inc){if(bowls.length<20)bowls.push("")}else bowls.pop();
+      }
+      c=setBowls(no,bowls,c);
       if(proxyMode)pcart=c;else cart=c;render();return;
     }
     if(t.id==="send"){
@@ -328,7 +379,7 @@ document.addEventListener("click",async function(e){
       if(state.status==="open"){
         var S=summary(),recs=orders.map(function(o){
           var it=itemsOf(o),ls=[],tot=0;
-          Object.keys(it).forEach(function(k){var x=lineOf(k);if(x){ls.push({name:x.name,price:x.price,qty:it[k]});tot+=x.price*it[k]}});
+          Object.keys(it).forEach(function(k){var x=lineOf(k);if(x){ls.push({name:x.name,price:x.price,qty:it[k],base:x.bname,opt:x.oname,v:x.v});tot+=x.price*it[k]}});
           return ls.length?{uid:o.id,label:o.label||smap[o.id]||"",lines:ls,note:o.note||"",total:tot}:null;
         }).filter(Boolean);
         if(recs.length)await db.collection("history").doc(state.date+"-"+Date.now()).set({date:state.date,shop:state.shop,phone:state.phone||"",orders:recs,total:S.tot,count:S.n});
