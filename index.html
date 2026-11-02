@@ -91,6 +91,7 @@ a{color:var(--ac)}
 <script>
 var db=null,user=null,me=null,isOrg=false,state=null,orders=[],names={},cart=null,draftOrderNote=null,ready=false,hist=[],view="main",openDay=null,previewShop=null,proxyMode=false,pcart={},pname="",roster=[],smap={},changing=false,who=(function(){try{return localStorage.getItem("who")||""}catch(e){return ""}})(),shops=[],editId=null,adding=false,draftName="",draftMenu="",draftPhone="",draftMobile="",draftNote="";
 var $=function(id){return document.getElementById(id)};
+var payMap={},payDraft={};
 var armed=null,armedT=null,manualCopy=null,toastT=null;
 function toast(msg){
   var el=$("toast");if(!el){el=document.createElement("div");el.id="toast";document.body.appendChild(el)}
@@ -261,7 +262,9 @@ function histView(){
       h+='<div style="margin-top:10px">';
       var G=groupHist([].concat.apply([],(x.orders||[]).map(function(o){return o.lines||[]})));
       h+='<h2>品項統計（'+x.count+' 份・$'+x.total+'）</h2>'+groupHtml(G)+'<h2 style="margin-top:14px">每人明細</h2>';
-      (x.orders||[]).forEach(function(o){h+='<div class="line"><span>'+esc(nameOf(o.uid,o.label))+(o.uid===me?'（我）':'')+'：'+esc(histDesc(o.lines))+(o.note?'（'+esc(o.note)+'）':'')+'</span><span>$'+o.total+'</span></div>'});
+      (x.orders||[]).forEach(function(o){h+='<div class="line"><span>'+esc(nameOf(o.uid,o.label))+(o.uid===me?'（我）':'')+'：'+esc(histDesc(o.lines))+(o.note?'（'+esc(o.note)+'）':'')+(o.paid===true?' <small style="color:var(--ok)">✅已收'+(o.given>o.total?'・找零 $'+(o.given-o.total):'')+'</small>':(o.paid===false?' <small class="price">⏳未收</small>':''))+'</span><span>$'+o.total+'</span></div>'});
+      var po=(x.orders||[]).filter(function(o){return o.paid!==undefined});
+      if(po.length){var pdn=po.filter(function(o){return o.paid}).length,pdo=po.filter(function(o){return !o.paid}).reduce(function(a,o){return a+o.total},0);h+='<div class="sub" style="margin:8px 0 0">已收款 '+pdn+' / '+po.length+' 人'+(pdo?'・未收 $'+pdo:'')+'</div>'}
       if(isOrg)h+='<div style="margin-top:10px"><button class="g" data-hdel="'+esc(x.id)+'">刪除這筆紀錄</button></div>';
       h+='</div>';
     }
@@ -282,6 +285,19 @@ function summary(){
   var keys=Object.keys(cnt).sort(function(a,b){return skey(a)-skey(b)});
   return {r:r,cnt:cnt,keys:keys,tot:tot,n:n};
 }
+function payInfo(x){var p=payMap[x.id];if(!p)return {st:"none"};if(p.total!==x.total)return {st:"changed",p:p};return {st:"paid",given:p.given,change:p.given-x.total}}
+function payChips(x){
+  var id=esc(x.id),h='<button data-pay="'+id+'|'+x.total+'" style="padding:2px 10px;font-size:13px">剛好 $'+x.total+'</button>';
+  [50,100,200,500,1000,2000].filter(function(v){return v>x.total}).slice(0,3).forEach(function(v){h+=' <button class="g" data-pay="'+id+'|'+v+'" style="padding:2px 10px;font-size:13px">給 $'+v+'</button>'});
+  return h+' <input type="number" inputmode="numeric" data-pdin="'+id+'" placeholder="其他金額" value="'+esc(payDraft[x.id]||"")+'" style="width:92px;margin:0;padding:3px 8px;font-size:13px"> <button class="g" data-paycustom="'+id+'" style="padding:2px 10px;font-size:13px">收款</button>';
+}
+async function syncHist(){
+  if(!state||state.status!=="closed"||!state.histId)return;
+  var h0=hist.find(function(x){return x.id===state.histId});if(!h0)return;
+  var snap=await db.collection("pay").get(),pm={};snap.docs.forEach(function(d){pm[d.id]=d.data()});
+  var os=(h0.orders||[]).map(function(o){var p=pm[o.uid],ok=!!(p&&p.total===o.total);return Object.assign({},o,{paid:ok,given:ok?p.given:0})});
+  await db.collection("history").doc(state.histId).update({orders:os});
+}
 function stats(){
   var S=summary();
   if(!S.r.length)return '<div class="card"><h2>目前訂單</h2><div class="empty">還沒有人點餐</div></div>';
@@ -290,8 +306,15 @@ function stats(){
   var notes=S.r.filter(function(x){return x.note});
   if(notes.length){h+='<h2 style="margin-top:12px">備註</h2>';notes.forEach(function(x){h+='<div class="line"><span>'+esc(x.who)+'</span><span>'+esc(x.note)+'</span></div>'})}
   h+='</div><div class="card"><h2>每人明細</h2>';
-  S.r.forEach(function(x){h+='<div class="line"><span>'+esc(x.who)+'：'+esc(describe(x.items))+'</span><span>$'+x.total+(isOrg&&x.proxy?' <button class="g" data-pdel="'+esc(x.id)+'" style="padding:2px 8px">刪</button>':'')+'</span></div>'});
-  return h+'<div class="tot"><span>合計</span><span>$'+S.tot+'</span></div></div>';
+  var pn=0,owe=0,chg=0,cl=[];
+  S.r.forEach(function(x){
+    var pi=payInfo(x),stt;
+    if(pi.st==="paid"){pn++;if(pi.change>0){chg+=pi.change;cl.push(x.who+" $"+pi.change)}
+      stt='<span style="color:var(--ok)">✅ 已收 $'+pi.given+'</span>・'+(pi.change>0?'<b>找零 $'+pi.change+'</b>':'剛好，不用找')+(isOrg?' <button class="g" data-unpay="'+esc(x.id)+'" style="padding:1px 8px;font-size:12px">取消收款</button>':'')}
+    else{owe+=x.total;stt=(pi.st==="changed"?'<span style="color:#c92a2a">⚠ 金額有變（收款時 $'+pi.p.total+'），請重新收款</span>':'<span class="price">⏳ 未付</span>')+(isOrg?' '+payChips(x):'')}
+    h+='<div class="line" style="flex-wrap:wrap"><span>'+esc(x.who)+'：'+esc(describe(x.items))+'</span><span>$'+x.total+(isOrg&&x.proxy?' <button class="g" data-pdel="'+esc(x.id)+'" style="padding:2px 8px">刪</button>':'')+'</span><div style="flex-basis:100%;font-size:13px;margin-top:4px">'+stt+'</div></div>';
+  });
+  return h+'<div class="tot"><span>合計</span><span>$'+S.tot+'</span></div><div class="line" style="margin-top:8px"><span>已收款</span><span>'+pn+' / '+S.r.length+' 人</span></div><div class="line"><span>尚未收款</span><span>$'+owe+'</span></div><div class="line" style="border:0"><span>需找零合計</span><span>$'+chg+'</span></div>'+(cl.length?'<div class="sub" style="margin:4px 0 0">找零：'+esc(cl.join("、"))+'</div>':'')+'</div>';
 }
 function statsText(){
   var S=summary();
@@ -306,6 +329,18 @@ function statsText(){
 document.addEventListener("click",async function(e){
   var t=e.target.closest("[data-hday],button");if(!t||!db)return;
   try{
+    if(t.dataset.pay||t.dataset.paycustom){
+      var pid,pv;
+      if(t.dataset.pay){var pp=t.dataset.pay.split("|");pid=pp[0];pv=Number(pp[1])}
+      else{pid=t.dataset.paycustom;pv=Number(payDraft[pid])}
+      var prow=rowsOf().find(function(r){return r.id===pid});
+      if(!prow){toast("找不到這筆訂單");return}
+      if(!(pv>0)){toast("請輸入收到的金額");return}
+      if(pv<prow.total){toast("收到的金額比應付 $"+prow.total+" 少");return}
+      await db.collection("pay").doc(pid).set({given:pv,total:prow.total});
+      delete payDraft[pid];await syncHist();return;
+    }
+    if(t.dataset.unpay){await db.collection("pay").doc(t.dataset.unpay).delete();await syncHist();return}
     if(t.dataset.menu){previewShop=previewShop===t.dataset.menu?null:t.dataset.menu;render();return}
     if(t.dataset.pick){if(me){await db.collection("staffmap").doc(me).set({name:t.dataset.pick})}changing=false;render();return}
     if(t.dataset.change){changing=true;render();return}
@@ -380,10 +415,12 @@ document.addEventListener("click",async function(e){
         var S=summary(),recs=orders.map(function(o){
           var it=itemsOf(o),ls=[],tot=0;
           Object.keys(it).forEach(function(k){var x=lineOf(k);if(x){ls.push({name:x.name,price:x.price,qty:it[k],base:x.bname,opt:x.oname,v:x.v});tot+=x.price*it[k]}});
-          return ls.length?{uid:o.id,label:o.label||smap[o.id]||"",lines:ls,note:o.note||"",total:tot}:null;
+          var pp0=payMap[o.id],pok=!!(pp0&&pp0.total===tot);return ls.length?{uid:o.id,label:o.label||smap[o.id]||"",lines:ls,note:o.note||"",total:tot,paid:pok,given:pok?pp0.given:0}:null;
         }).filter(Boolean);
-        if(recs.length)await db.collection("history").doc(state.date+"-"+Date.now()).set({date:state.date,shop:state.shop,phone:state.phone||"",orders:recs,total:S.tot,count:S.n});
-        await db.doc("state/current").update({status:"closed"});
+        var hid=state.date+"-"+Date.now();
+        if(recs.length)await db.collection("history").doc(hid).set({date:state.date,shop:state.shop,phone:state.phone||"",orders:recs,total:S.tot,count:S.n});
+        await db.doc("state/current").update(recs.length?{status:"closed",histId:hid}:{status:"closed"});
+        var unp=recs.filter(function(r){return !r.paid}).length;if(unp)toast("已結單，尚有 "+unp+" 人未收款（收款後會自動更新歷史紀錄）");
       }
       else{await clearOrders();await db.doc("state/current").delete()}
     }
@@ -395,6 +432,7 @@ document.addEventListener("change",function(e){
 });
 document.addEventListener("input",function(e){
   if(e.target.id==="note")draftOrderNote=e.target.value;
+  if(e.target.dataset&&e.target.dataset.pdin)payDraft[e.target.dataset.pdin]=e.target.value;
   if(e.target.id==="pname")pname=e.target.value;
   if(e.target.id==="sname")draftName=e.target.value;
   if(e.target.id==="smenu")draftMenu=e.target.value;
@@ -415,6 +453,8 @@ function parseMenu(text){
 async function clearOrders(){
   var snap=await db.collection("orders").get();
   for(var i=0;i<snap.docs.length;i++){await db.collection("orders").doc(snap.docs[i].id).delete()}
+  var ps=await db.collection("pay").get();
+  for(var j=0;j<ps.docs.length;j++){await db.collection("pay").doc(ps.docs[j].id).delete()}
 }
 async function loadNames(){
   var seen={};orders.forEach(function(o){if(!o.label)seen[o.id]=1});
@@ -445,6 +485,7 @@ async function loadNames(){
   db.collection("shops").onSnapshot(function(q){
     shops=q.docs.map(function(d){return Object.assign({},d.data(),{id:d.id})});render();
   },function(){});
+  db.collection("pay").onSnapshot(function(q){payMap={};q.docs.forEach(function(d){payMap[d.id]=d.data()});render()},function(){});
   db.collection("orders").onSnapshot(function(q){
     orders=q.docs.map(function(d){return Object.assign({},d.data(),{id:d.id})});render();loadNames();
   },function(){});
