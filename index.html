@@ -124,21 +124,21 @@ function render(){
   h+='<div class="sub">'+esc(state.shop)+' <span class="badge '+(closed?'':'open')+'">'+(closed?'已結單':'接單中')+'</span></div>';
   if(state.phone||state.mobile||state.note){h+='<div class="sub">'+(state.phone?'📞 <a href="tel:'+esc(state.phone)+'">'+esc(state.phone)+'</a>':'')+(state.mobile?' 📱 <a href="tel:'+esc(state.mobile)+'">'+esc(state.mobile)+'</a>':'')+(state.note?' ・ '+esc(state.note):'')+'</div>'}
   var mine=who?orders.find(function(o){return o.id===idFor(who)}):null;
-  h+='<div class="card"><h2>'+(proxyMode?'代點模式：幫同事點':'菜單（點選品項）')+'</h2>'+(proxyMode&&!closed?'<input id="pname" placeholder="同事名字" value="'+esc(pname)+'">':'');
-  if(!closed)h+=whoSelect();
+  var mh='';
+  mh+='<div class="card"><h2>'+(proxyMode?'代點模式：幫同事點':'菜單（點選品項）')+'</h2>'+(proxyMode&&!closed?'<input id="pname" placeholder="同事名字" value="'+esc(pname)+'">':'');
+  if(!closed)mh+=whoSelect();
   (state.menu||[]).forEach(function(m){
     var q=cartQty(m.no);
-    h+='<div class="item'+(q?' on':'')+'"><span>'+m.no+'. '+esc(m.name)+' <span class="price">$'+m.price+'</span></span>'+(closed?(q?'<b>x'+q+'</b>':''):'<span class="qty"><button class="g" data-dec="'+m.no+'">−</button><b>'+q+'</b><button data-inc="'+m.no+'">+</button></span>')+'</div>';
-    if(m.opts&&q>0&&!closed){bowlsOf(m.no,curCart()).forEach(function(v,bi){var sel=v===""?[]:v.split(",").map(Number);h+='<div class="item" style="margin-left:18px;border-style:dashed;cursor:default;flex-wrap:wrap;gap:6px"><span>第 '+(bi+1)+' 碗</span><span style="display:flex;flex-wrap:wrap;gap:6px">'+m.opts.map(function(op,oi){return '<button'+(sel.indexOf(oi)>=0?'':' class="g"')+' data-tog="'+m.no+'|'+bi+'|'+oi+'" style="padding:4px 10px;font-size:14px">'+esc(op.name)+' +$'+op.price+'</button>'}).join('')+'</span></div>'})}
+    mh+='<div class="item'+(q?' on':'')+'"><span>'+m.no+'. '+esc(m.name)+' <span class="price">$'+m.price+'</span></span>'+(closed?(q?'<b>x'+q+'</b>':''):'<span class="qty"><button class="g" data-dec="'+m.no+'">−</button><b>'+q+'</b><button data-inc="'+m.no+'">+</button></span>')+'</div>';
+    if(m.opts&&q>0&&!closed){bowlsOf(m.no,curCart()).forEach(function(v,bi){var sel=v===""?[]:v.split(",").map(Number);mh+='<div class="item" style="margin-left:18px;border-style:dashed;cursor:default;flex-wrap:wrap;gap:6px"><span>第 '+(bi+1)+' 碗</span><span style="display:flex;flex-wrap:wrap;gap:6px">'+m.opts.map(function(op,oi){return '<button'+(sel.indexOf(oi)>=0?'':' class="g"')+' data-tog="'+m.no+'|'+bi+'|'+oi+'" style="padding:4px 10px;font-size:14px">'+esc(op.name)+' +$'+op.price+'</button>'}).join('')+'</span></div>'})}
   });
   if(!closed){
-    h+='<input id="note" placeholder="備註（例如：少飯、不要香菜）" value="'+esc(draftOrderNote!==null?draftOrderNote:(mine?mine.note||"":""))+'">';
-    h+='<div class="row"><button id="send" style="flex:1">'+(proxyMode?'新增代點':(mine?'更新我的訂單':'送出訂單'))+'（$'+cartTotal()+'）</button>'+(mine?'<button class="g" id="cancel">取消</button>':'')+'</div>';
+    mh+='<input id="note" placeholder="備註（例如：少飯、不要香菜）" value="'+esc(draftOrderNote!==null?draftOrderNote:(mine?mine.note||"":""))+'">';
+    mh+='<div class="row"><button id="send" style="flex:1">'+(proxyMode?'新增代點':(mine?'更新我的訂單':'送出訂單'))+'（$'+cartTotal()+'）</button>'+(mine?'<button class="g" id="cancel">取消</button>':'')+'</div>';
   }
-  if(mine){h+='<div class="mine">✅ 你已訂：'+esc(describe(itemsOf(mine)))+(mine.note?'（'+esc(mine.note)+'）':'')+'</div>'}
-  h+='</div>';
-  h+=stats();
-  h+=pendingCard();
+  if(mine){mh+='<div class="mine">✅ 你已訂：'+esc(describe(itemsOf(mine)))+(mine.note?'（'+esc(mine.note)+'）':'')+'</div>'}
+  mh+='</div>';
+  if(closed){h+=stats()+pendingCard()+'<details style="margin:12px 0"><summary class="sub" style="cursor:pointer">📋 菜單與訂單內容（點開查看）</summary>'+mh+'</details>'}else{h+=mh+stats()+pendingCard()}
   if(isOrg){
     h+='<div class="card"><h2>團主操作</h2><div class="row"><button id="copy" class="g" style="flex:1">複製統計文字</button><button id="end">'+(state.status==='open'?'結單':'關閉並開新團')+'</button></div>'+'</div>';
   }
@@ -306,7 +306,7 @@ function stats(){
   h+=groupHtml(groupHist(S.keys.map(function(k){var L=lineOf(k);return {base:L.bname,opt:L.oname,v:L.v,qty:S.cnt[k]}})));
   var notes=S.r.filter(function(x){return x.note});
   if(notes.length){h+='<h2 style="margin-top:12px">備註</h2>';notes.forEach(function(x){h+='<div class="line"><span>'+esc(x.who)+'</span><span>'+esc(x.note)+'</span></div>'})}
-  h+='</div><div class="card"><h2>每人明細</h2>';
+  h+='</div><div class="card"><h2>'+(pastDeadline()?'💰 收款（每人明細）':'每人明細')+'</h2>';
   var pn=0,owe=0,chg=0,cl=[];
   S.r.forEach(function(x){
     var pi=payInfo(x),stt;
@@ -421,9 +421,12 @@ document.addEventListener("click",async function(e){
         var hid=state.date+"-"+Date.now();
         if(recs.length)await db.collection("history").doc(hid).set({date:state.date,shop:state.shop,phone:state.phone||"",orders:recs,total:S.tot,count:S.n});
         await db.doc("state/current").update(recs.length?{status:"closed",histId:hid}:{status:"closed"});
-        var unp=recs.filter(function(r){return !r.paid}).length;if(unp)toast("已結單，尚有 "+unp+" 人未收款（收款後會自動更新歷史紀錄）");
+        var unp=recs.filter(function(r){return !r.paid}).length;if(unp)toast("已結單，請在下方收款（共 "+unp+" 人未收）");window.scrollTo(0,0);
       }
-      else{await clearOrders();await db.doc("state/current").delete()}
+      else{
+        var un2=rowsOf().filter(function(r){return payInfo(r).st!=="paid"}).length;
+        if(un2&&!askTwice("還有 "+un2+" 人未收款，確定要關閉？（再按一次確認）","closeunpaid"))return;
+        await clearOrders();await db.doc("state/current").delete()}
     }
     if(t.id==="copy"){try{await navigator.clipboard.writeText(statsText());t.textContent="已複製 ✓"}catch(x){manualCopy=statsText();render()}}
   }catch(err){toast("操作失敗："+(err&&err.message||err))}
