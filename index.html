@@ -256,9 +256,14 @@ function nameOf(uid,label){return label||smap[uid]||names[uid]||"某人"}
 function histDesc(lines){return groupHist(lines).map(function(G){return fmtG(G.name,G.q,G.opts)}).join('、')}
 function histView(){
   if(!hist.length)return '<div class="empty">還沒有紀錄。團主按「結單」後會自動存檔。</div>';
-  var d=new Date(),ym=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"),mt=0,mc=0;
-  hist.forEach(function(x){if(x.date.indexOf(ym)===0)(x.orders||[]).forEach(function(o){if(o.uid===me){mt+=o.total;mc++}})});
-  var h='<div class="card"><h2>本月我的午餐花費</h2><div class="tot" style="padding:0"><span>'+mc+' 次</span><span>$'+mt+'</span></div></div>';
+  var d=new Date(),ym=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0"),mt=0,mc=0;var sn="阿寬",mu=0;
+  var pm={},pk=[];
+  hist.forEach(function(x){if(x.date.indexOf(ym)===0)(x.orders||[]).forEach(function(o){
+    var nm=nameOf(o.uid,o.label);if(!pm[nm]){pm[nm]={c:0,t:0,u:0};pk.push(nm)}
+    pm[nm].c++;pm[nm].t+=o.total;if(o.paid===false)pm[nm].u+=o.total;
+    if(o.uid===idFor(sn)||o.label===sn){mt+=o.total;mc++;if(o.paid===false)mu+=o.total}})});
+  var h='<div class="card"><h2>本月我的午餐花費</h2>'+'<div class="tot" style="padding:0"><span>'+esc(sn)+'：'+mc+' 次</span><span>$'+mt+'</span></div>'+(mu?'<div class="sub" style="margin:4px 0 0">其中未付 $'+mu+'</div>':'')+'</div>';
+  if(pk.length){h+='<div class="card"><h2>本月每人統計</h2>';pk.sort(function(a,b){return pm[b].t-pm[a].t}).forEach(function(n){h+='<div class="line"><span>'+esc(n)+' <small>'+pm[n].c+' 次'+(pm[n].u?'・未付 $'+pm[n].u:'')+'</small></span><span>$'+pm[n].t+'</span></div>'});h+='</div>'}
   hist.forEach(function(x){
     var wd="日一二三四五六"[new Date(x.date+"T00:00:00").getDay()],on=openDay===x.id;
     h+='<div class="card"><div class="hd" data-hday="'+esc(x.id)+'"><span><b>'+esc(x.date)+'（'+wd+'）</b> '+esc(x.shop)+'</span><span><small>'+x.count+' 份・</small><b>$'+x.total+'</b></span></div>';
