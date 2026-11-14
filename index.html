@@ -96,6 +96,7 @@ details>summary{list-style:none}details>summary::-webkit-details-marker{display:
 .top .backbtn{display:block;width:100%;margin-top:12px;background:rgba(0,0,0,.18);color:var(--topx);padding:10px;font-size:15px}
 .totop{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(92px + env(safe-area-inset-bottom,0px));z-index:19;height:44px;padding:0 18px;border-radius:99px;font-size:15px;background:var(--card);color:var(--ac);border:1px solid var(--bd);white-space:nowrap;box-shadow:0 4px 14px rgba(0,0,0,.22)}
 .totop.low{bottom:calc(20px + env(safe-area-inset-bottom,0px))}
+details[open]>summary .chev{transform:rotate(180deg)}.chev{color:var(--mu);display:inline-block}
 @media (prefers-reduced-motion:no-preference){.chip,.cats button,.qty button{transition:background-color .12s,color .12s}}
 </style>
 </head>
@@ -178,7 +179,7 @@ function catOf(n,p){
   if(p>=80)return "飯類";
   return "單點";
 }
-var menuCat="全部",menuQ="";
+var menuCat="全部",menuQ="";var statOpen=false;
 function applyFilter(){
   var q=menuQ.trim().toLowerCase(),n=0;
   document.querySelectorAll(".mi").forEach(function(el){
@@ -363,7 +364,7 @@ function histView(){
     pm[nm].c++;pm[nm].t+=o.total;if(o.paid===false)pm[nm].u+=o.total;
     if(o.uid===idFor(sn)||o.label===sn){mt+=o.total;mc++;if(o.paid===false)mu+=o.total}})});
   var h='<div class="card"><h2>本月我的午餐花費</h2>'+'<div class="tot" style="padding:0"><span>'+esc(sn)+'：'+mc+' 次</span><span>$'+mt+'</span></div>'+(mu?'<div class="sub" style="margin:4px 0 0">其中未付 $'+mu+'</div>':'')+'</div>';
-  if(pk.length){h+='<div class="card"><h2>本月每人統計</h2>';pk.sort(function(a,b){return pm[b].t-pm[a].t}).forEach(function(n){h+='<div class="line"><span>'+esc(n)+' <small>'+pm[n].c+' 次'+(pm[n].u?'・未付 $'+pm[n].u:'')+'</small></span><span>$'+pm[n].t+'</span></div>'});h+='</div>'}
+  if(pk.length){var pu=0;pk.forEach(function(n){pu+=pm[n].u});h+='<details class="card" id="pstat"'+(statOpen?' open':'')+'><summary class="hd"><span><b>本月每人統計</b> <small>'+pk.length+' 人'+(pu?'・未付 $'+pu:'')+'</small></span><span class="chev">▾</span></summary><div style="margin-top:10px">';pk.sort(function(a,b){return pm[b].t-pm[a].t}).forEach(function(n){h+='<div class="line"><span>'+esc(n)+' <small>'+pm[n].c+' 次'+(pm[n].u?'・未付 $'+pm[n].u:'')+'</small></span><span>$'+pm[n].t+'</span></div>'});h+='</div></details>'}
   hist.forEach(function(x){
     var wd="日一二三四五六"[new Date(x.date+"T00:00:00").getDay()],on=openDay===x.id;
     h+='<div class="card"><div class="hd" data-hday="'+esc(x.id)+'"><span><b>'+esc(x.date)+'（'+wd+'）</b> '+esc(x.shop)+'</span><span><small>'+x.count+' 份・</small><b>$'+x.total+'</b></span></div>';
@@ -435,6 +436,7 @@ function statsText(){
   return t;
 }
 
+document.addEventListener("toggle",function(e){if(e.target.id==="pstat")statOpen=e.target.open},true);
 window.addEventListener("scroll",function(){var b=$("totop");if(b)b.hidden=window.scrollY<=300},{passive:true});
 document.addEventListener("click",async function(e){
   var t=e.target.closest("[data-hday],button");if(!t||!db)return;
